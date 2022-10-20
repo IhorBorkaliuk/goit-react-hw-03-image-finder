@@ -29,24 +29,24 @@ export class ImageGallery extends Component {
     }
   }
 
-  async loadImages(currentName, currentPage) {
+  async loadImages(query, page) {
     this.setState({ loading: true });
     try {
-      const result = await findImages(currentName, currentPage);
-      const items = result.hits;
-      if (items.length === 0) {
+      const result = await findImages(query, page);
+      const data = result.hits;
+      if (data.length === 0) {
         return Notiflix.Notify.failure('Зображень не знайдено');
       }
-      if (currentPage === 1) {
+      if (page === 1) {
         this.setState(() => {
           return {
-            images: [...items],
+            images: [...data],
           };
         });
       } else {
         this.setState(({ images }) => {
           return {
-            images: [...images, ...items],
+            images: [...images, ...data],
           };
         });
       }
