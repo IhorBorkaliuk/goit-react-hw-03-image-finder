@@ -8,7 +8,6 @@ import { StyledGallery } from './ImageGalleryStyled';
 import { Loader } from 'components/Loader/Loader';
 import findImages from 'components/FindImages/FindImages';
 
-
 export class ImageGallery extends Component {
   state = {
     images: [],
