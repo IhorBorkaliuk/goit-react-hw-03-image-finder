@@ -1,15 +1,15 @@
 import { SearchBar } from "./SearchBar/SearchBar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { Component } from "react";
-
-
-
-
+import { StyledApp } from "./AppStyled";
+import { GlobalNormalize } from "./Styled/GlobalNormalize";
+import { Loader } from "./Loader/Loader";
 
 
 export class App extends Component {
   state = {
     query: '',
+    loading: false,
   };
 
   updateQuery = text => {
@@ -17,11 +17,15 @@ export class App extends Component {
   };
 
   render() {
+    const { loading, query } = this.state;
+
     return (
-      <div>
+      <StyledApp>
         <SearchBar onSubmit={this.updateQuery} />
-        <ImageGallery query={this.state.query} />
-      </div>
+        <ImageGallery query={query} />
+        {loading && <Loader />}
+        <GlobalNormalize />
+      </StyledApp>
     );
   }
 }

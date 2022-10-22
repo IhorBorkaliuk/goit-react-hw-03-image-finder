@@ -1,5 +1,14 @@
 import Notiflix from "notiflix";
 import { Component } from "react";
+import {
+  StyledSearchBar,
+  StyledForm,
+  StyledButton,
+  StyledButtonLabel,
+  StyledInput,
+} from './SearchBarStyled';
+import { FaSearch } from 'react-icons/fa';
+
 
 export class SearchBar extends Component {
     state = {
@@ -25,21 +34,22 @@ export class SearchBar extends Component {
 
     render() {
         return (
-          <header className="searchbar">
-            <form className="form" onSubmit={this.handleSubmit}>
-              <button type="submit" className="button">
-                <span className="button-label">Search</span>
-              </button>
+          <StyledSearchBar>
+            <StyledForm onSubmit={this.handleSubmit}>
+              <StyledButton type="submit">
+                <FaSearch />
+                <StyledButtonLabel>Search</StyledButtonLabel>
+              </StyledButton>
 
-              <input
+              <StyledInput
                 className="input"
                 type="text"
                 placeholder="Search images and photos"
                 value={this.state.query}
                 onChange={this.handleChange}
               />
-            </form>
-          </header>
+            </StyledForm>
+          </StyledSearchBar>
         );
     }
 }

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Component } from 'react';
 import { Button } from 'components/Button/Button';
+import { StyledGallery } from './ImageGalleryStyled';
+import { Loader } from 'components/Loader/Loader';
 import findImages from 'components/FindImages/FindImages';
 
 
@@ -11,8 +13,8 @@ export class ImageGallery extends Component {
   state = {
     images: [],
     page: 1,
-    loader: false,
     query: '',
+    loading: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -67,19 +69,21 @@ export class ImageGallery extends Component {
   loadMore = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
+      loading: true,
     }));
   };
 
   render() {
-    const { images } = this.state;
+    const { images, loading } = this.state;
     return (
       <>
-        <ul>
+        <StyledGallery>
           {images.map(el => {
             return <ImageGalleryItem item={el} key={el.id} />;
           })}
-        </ul>
+        </StyledGallery>
         {images.length >= 12 && <Button onClick={this.loadMore} />}
+        {loading && <Loader />}
       </>
     );
   }
