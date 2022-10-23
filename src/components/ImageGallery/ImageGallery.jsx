@@ -6,7 +6,7 @@ import { Component } from 'react';
 import { Button } from 'components/Button/Button';
 import { StyledGallery } from './ImageGalleryStyled';
 import { Loader } from 'components/Loader/Loader';
-import findImages from 'components/FindImages/FindImages';
+import apiServices from 'components/services/apiServices.js';
 
 export class ImageGallery extends Component {
   state = {
@@ -14,6 +14,7 @@ export class ImageGallery extends Component {
     page: 1,
     query: '',
     loading: false,
+    showLoadMore: true,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -33,9 +34,12 @@ export class ImageGallery extends Component {
   async loadImages(query, page) {
     this.setState({ loading: true });
     try {
-      const result = await findImages(query, page);
+      const result = await apiServices(query, page);
       const data = result.hits;
+      const pagesCounter = Math.ceil(result.totalHits / 12);
+
       if (data.length === 0) {
+        console.log(data.length);
         return Notiflix.Notify.failure('Зображень не знайдено');
       }
       if (page === 1) {
@@ -44,6 +48,10 @@ export class ImageGallery extends Component {
             images: [...data],
           };
         });
+        if (page >= pagesCounter) {
+          Notiflix.Notify.failure('Це останні результати за Вашим запитом');
+          this.setState({ showLoadMore: false });
+        }
       } else {
         this.setState(({ images }) => {
           return {
@@ -73,7 +81,9 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { images, loading } = this.state;
+    const { images, loading, showLoadMore } = this.state;
+    console.log(images.length);
+    console.log(showLoadMore);
     return (
       <>
         <StyledGallery>
@@ -81,7 +91,9 @@ export class ImageGallery extends Component {
             return <ImageGalleryItem item={el} key={el.id} />;
           })}
         </StyledGallery>
-        {images.length >= 12 && <Button onClick={this.loadMore} />}
+        {showLoadMore && images.length >= 12 && (
+          <Button onClick={this.loadMore} />
+        )}
         {loading && <Loader />}
       </>
     );

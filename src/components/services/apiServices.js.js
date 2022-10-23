@@ -1,4 +1,7 @@
 import axios from "axios";
+import Notiflix from 'notiflix';
+
+
 axios.defaults.baseURL = ' https://pixabay.com/api';
 
 const API_KEY = '29728762-2a6b84e3d27132460ba58a3d0';
@@ -11,7 +14,7 @@ try {
     
     return response.data
 } catch (error) {
-    console.log(error.message);
+    Notiflix.Notify.failure('Виникла помилка, будь ласка, спробуйте ще раз.');
 }
 }
 
