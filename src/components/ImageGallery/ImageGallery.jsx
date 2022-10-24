@@ -46,19 +46,22 @@ export class ImageGallery extends Component {
         this.setState(() => {
           return {
             images: [...data],
-          };
-        });
-        if (page >= pagesCounter) {
-          Notiflix.Notify.failure('Це останні результати за Вашим запитом');
-          this.setState({ showLoadMore: false });
-        }
-      } else {
-        this.setState(({ images }) => {
-          return {
-            images: [...images, ...data],
+            showLoadMore: true,
           };
         });
       }
+      if (page >= pagesCounter) {
+                Notiflix.Notify.failure(
+                  'Це останні результати за Вашим запитом'
+                );
+                this.setState({ showLoadMore: false });
+              } else {
+                this.setState(({ images }) => {
+                  return {
+                    images: [...images, ...data],
+                  };
+                });
+              }
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -91,7 +94,7 @@ export class ImageGallery extends Component {
             return <ImageGalleryItem item={el} key={el.id} />;
           })}
         </StyledGallery>
-        {showLoadMore && images.length >= 12 && (
+        {!loading && showLoadMore && images.length >= 12 && (
           <Button onClick={this.loadMore} />
         )}
         {loading && <Loader />}

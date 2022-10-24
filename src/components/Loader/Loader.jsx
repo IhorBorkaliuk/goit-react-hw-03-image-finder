@@ -1,15 +1,17 @@
-import { Blocks } from 'react-loader-spinner';
+import { TailSpin } from 'react-loader-spinner';
 
 
 export const Loader = () => {
   return (
-    <Blocks
-      visible={true}
+    <TailSpin
       height="80"
       width="80"
-      ariaLabel="blocks-loading"
+      color="#0b22ed"
+      ariaLabel="tail-spin-loading"
+      radius="1"
       wrapperStyle={{}}
-      wrapperClass="blocks-wrapper"
+      wrapperClass=""
+      visible={true}
     />
   );
 }
